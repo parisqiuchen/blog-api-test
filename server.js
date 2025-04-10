@@ -4,6 +4,8 @@ const categoryRouter = require("./routes/categories/categoryRoutes");
 const commentRouter = require("./routes/comments/commentRoutes");
 const postRouter = require("./routes/posts/postRoutes");
 const userRouter = require("./routes/users/userRoutes");
+const Post = require("./model/Post/Post");
+
 
 require("dotenv").config();
 require("./config/dbConnect");
@@ -13,6 +15,18 @@ const app = express();
 
 //middlewares
 app.use(express.json()); //pass incoming payload
+
+app.get("/", async (req, res) => {
+  try {
+    const posts = await Post.find();
+    res.json({
+      status: "success",
+      data: posts,
+    });
+  } catch (error) {
+    res.json(error);
+  }
+});
 
 //routes
 //----
